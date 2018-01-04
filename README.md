@@ -1,7 +1,7 @@
 ### App Template for Demystifying Rails Book
 
-This is a template to start off with for going through the Demystifying Rails
-Book.
+This is a template to start off with for going through the [Demystifying Rails
+Book](https://launchschool.com/books/demystifying_rails).
 
 The pry gem has been included in this application to help readers debug their
 application as they build it up.  You will only need to add in a `binding.pry`
