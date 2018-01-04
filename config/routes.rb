@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get '/hello/:name' => 'application#hello_world'
   get '/list_posts' => 'application#list_posts'
   get '/show_post/:id' => 'application#show_post'
+  get '/new_post' => 'application#new_post'
+  post '/create_post' => 'application#create_post'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
