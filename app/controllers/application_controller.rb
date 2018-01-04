@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def show_post
-    post = find_post_by_id(params['id'])
+    post = Post.find(params['id'])
 
     render 'application/show_post', locals: { post: post }
   end
@@ -36,16 +36,13 @@ class ApplicationController < ActionController::Base
   end
 
   def update_post
-    update_query = <<-SQL
-      UPDATE posts
-      SET title      = ?,
-          body       = ?,
-          author     = ?
-      WHERE posts.id = ?
-    SQL
-    connection.execute(
-      update_query, params['title'], params['body'], params['author'], params['id']
+    post = Post.find(params['id'])
+    post.set_attributes(
+      'title' => params['title'],
+      'body' => params['body'],
+      'author' => params['author']
     )
+    post.save
 
     redirect_to '/list_posts'
   end
