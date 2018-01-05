@@ -12,8 +12,11 @@ class ApplicationController < ActionController::Base
 
   def show_post
     post = Post.find(params['id'])
+    comment = Comment.new
+    comments = post.comments
 
-    render 'application/show_post', locals: { post: post }
+    render 'application/show_post',
+      locals: { post: post, comment: comment, comments: comments }
   end
 
   def new_post
@@ -62,20 +65,20 @@ class ApplicationController < ActionController::Base
   end
 
   def create_comment
-    insert_comment_query = <<-SQL
-      INSERT INTO comments (body, author, post_id, created_at)
-      VALUES (?, ?, ?, ?)
-    SQL
-
-    connection.execute(
-      insert_comment_query,
-      params['body'],
-      params['author'],
-      params['post_id'],
-      Date.current.to_s
-    )
-
-    redirect_to "/show_post/#{params['post_id']}"
+    post     = Post.find(params['post_id'])
+    comments = post.comments
+    # post.build_comment to set the post_id
+    comment  = post.build_comment('body' => params['body'], 'author' => params['author'])
+    if comment.save
+      # redirect for success
+      redirect_to "/show_post/#{params['post_id']}"
+    else
+      # render form again with errors for failure
+      render(
+        'application/show_post',
+        locals: { post: post, comment: comment, comments: comments }
+      )
+    end
   end
 
   private
