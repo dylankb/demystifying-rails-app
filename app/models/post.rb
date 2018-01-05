@@ -65,14 +65,22 @@ class Post
   end
 
   def save
+    return false unless valid?
+
     if new_record?
       insert
     else
       update
     end
+
+    true
   end
 
   def destroy
     Post.connection.execute "DELETE FROM posts WHERE posts.id = ?", id
+  end
+
+  def valid?
+    title.present? && body.present? && author.present?
   end
 end
