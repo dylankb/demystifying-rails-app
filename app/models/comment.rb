@@ -1,4 +1,4 @@
-class Comment
+class Comment < BaseModel
   attr_reader :id, :body, :author, :post_id, :created_at, :errors
 
   def initialize(attributes={})
@@ -11,27 +11,8 @@ class Comment
     @errors = {}
   end
 
-  def self.find(id)
-    comment_hash = connection.execute("SELECT * FROM comments WHERE comments.id = ? LIMIT 1", id).first
-    Comment.new(comment_hash)
-  end
-
-  def destroy
-    Comment.connection.execute "DELETE FROM comments WHERE id = ?", id
-  end
-
   def new_record?
     @id.nil?
-  end
-
-  def save
-    return false unless valid?
-
-    if new_record?
-      insert
-    else
-      # update # ...not yet defined
-    end
   end
 
   def insert
@@ -61,18 +42,5 @@ class Comment
 
   def post
     Post.find(post_id)
-  end
-
-  def self.all
-    comment_row_hashes = connection.execute("SELECT * FROM comments")
-    comment_row_hashes.map do |comment_row_hash|
-      Comment.new(comment_row_hash)
-    end
-  end
-
-  def self.connection
-    db_connection = SQLite3::Database.new 'db/development.sqlite3'
-    db_connection.results_as_hash = true
-    db_connection
   end
 end
