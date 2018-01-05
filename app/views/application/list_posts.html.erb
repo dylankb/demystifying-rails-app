@@ -6,7 +6,7 @@
         <div class="post">
 
           <h2 class="title">
-            <a href="/show_post/<%= post.id %>"><%= post.title %></a>
+            <a href="/posts/<%= post.id %>"><%= post.title %></a>
           </h2>
 
           <small class="meta">
@@ -14,16 +14,16 @@
             <em class="created_at"><%= post.created_at %></em>
           </small>
 
-          <a href="/edit_post/<%= post.id %>">Edit</a>
+          <a href="/posts/<%= post.id %>/edit">Edit</a>
 
-          <form method="post" action="/delete_post/<%= post.id %>" style='display: inline'>
-            <input type="submit" value="Delete" />
-          </form>
+          <%= form_tag "/posts/#{post.id}", method: "delete" , style: "display: inline" do %>
+            <%= submit_tag "Delete" %>
+          <% end %>
         </div>
         <hr />
       <% end %>
     </div>
-    <a href="/new_post">New Post</a>
+    <a href="/posts/new">New Post</a>
 
   </body>
 </html>
