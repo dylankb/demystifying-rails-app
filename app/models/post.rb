@@ -94,4 +94,9 @@ class Post
       Comment.new(comment_hash)
     end
   end
+
+  def create_comment(attributes)
+    comment = Comment.new(attributes.merge!('post_id' => id))
+    comment.save
+  end
 end

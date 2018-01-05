@@ -30,8 +30,25 @@
         </div>
         <hr />
       <% end %>
+    </div>
 
     </div>
+
+    <form method="post" action="/create_comment_for_post/<%= post.id %>">
+
+      <label for="body">Comment</label>
+      <textarea id="body" name="body"></textarea>
+      <br /> <br />
+
+      <label for="author">Name</label>
+      <input id="author" name="author" type="text" />
+      <br /> <br />
+
+      <input type="submit" value="Add Comment" />
+    </form>
+    <hr />
+
+  </div>
 
   </body>
 </html>
