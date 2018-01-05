@@ -59,6 +59,17 @@ class Comment
     Comment.find(comment_id).destroy
   end
 
+  def post
+    Post.find(post_id)
+  end
+
+  def self.all
+    comment_row_hashes = connection.execute("SELECT * FROM comments")
+    comment_row_hashes.map do |comment_row_hash|
+      Comment.new(comment_row_hash)
+    end
+  end
+
   def self.connection
     db_connection = SQLite3::Database.new 'db/development.sqlite3'
     db_connection.results_as_hash = true
