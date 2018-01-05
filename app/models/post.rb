@@ -87,4 +87,11 @@ class Post
     @errors['author'] = "can't be blank" if author.blank?
     @errors.empty?
   end
+
+  def comments
+    comment_hashes = Post.connection.execute 'SELECT * FROM comments WHERE comments.post_id = ?', id
+    comment_hashes.map do |comment_hash|
+      Comment.new(comment_hash)
+    end
+  end
 end
