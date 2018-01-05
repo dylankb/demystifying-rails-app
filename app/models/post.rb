@@ -103,4 +103,8 @@ class Post
   def build_comment(attributes)
     Comment.new(attributes.merge!('post_id' => id))
   end
+
+  def delete_comment(comment_id)
+    Comment.find(comment_id).destroy
+  end
 end

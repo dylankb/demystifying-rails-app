@@ -11,6 +11,15 @@ class Comment
     @errors = {}
   end
 
+  def self.find(id)
+    comment_hash = connection.execute("SELECT * FROM comments WHERE comments.id = ? LIMIT 1", id).first
+    Comment.new(comment_hash)
+  end
+
+  def destroy
+    Comment.connection.execute "DELETE FROM comments WHERE id = ?", id
+  end
+
   def new_record?
     @id.nil?
   end
@@ -44,6 +53,10 @@ class Comment
     @errors['body']   = "can't be blank" if body.blank?
     @errors['author'] = "can't be blank" if author.blank?
     @errors.empty?
+  end
+
+  def delete_comment(comment_id)
+    Comment.find(comment_id).destroy
   end
 
   def self.connection
